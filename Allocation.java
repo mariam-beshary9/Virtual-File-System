@@ -179,7 +179,7 @@ class IndexedAllocation extends Allocation {
 
     @Override
     public boolean addFile(Directory directory, String path, int size, String n) {
-        int index = checkFreeSpace(size);
+        int index = checkFreeSpace(size+1);
         if (index == -1) {
             return false;
         } else {
