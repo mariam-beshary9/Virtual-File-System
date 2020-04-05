@@ -26,8 +26,11 @@ public class VirtualFileSystem {
             allocation = new IndexedAllocation(diskSize);
 
         }
-
-        allocation.readData();
+        System.out.println("Do you want to upload the file system? y/n\nIf you entered n the file system will be re-initialized.");
+        String ans = sc.nextLine();
+        if (ans.equals("y")) {
+            allocation.readData();
+        }
 
         while (true) {
 
@@ -209,6 +212,9 @@ public class VirtualFileSystem {
             else if (split[0].equals("DisplayDiskStructure")) {
                 allocation.printDirectoryStructure("", allocation.root);
 
+            }
+            else {
+                System.out.println("You have entered an invalid command!");
             }
         }
     }
