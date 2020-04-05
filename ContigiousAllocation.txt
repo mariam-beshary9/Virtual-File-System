@@ -1,0 +1,5 @@
+CreateFolder root
+CreateFile root/file.txt 300 0 299
+CreateFile root/file2.txt 700 300 999
+CreateFolder root/folder
+CreateFolder root/folder2
