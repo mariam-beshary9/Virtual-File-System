@@ -169,7 +169,18 @@ class ContiguousAllocation extends Allocation {
         } catch (FileNotFoundException ex) {
             System.out.println("read nothing from files");
         }
-    }}
+    }
+
+@Override
+    public void deleteFile(File file) {
+        int[] blocks = file.getAllocatedBlocks();
+        for (int i = 0; i < blocks.length; i++) {
+            diskBlocks[blocks[i]] = false;
+        }
+        freeSize += file.size;
+        file.delete();
+    }
+}
 
 class IndexedAllocation extends Allocation {
 
@@ -316,7 +327,16 @@ class IndexedAllocation extends Allocation {
             System.out.println("read nothing from files");
         }
     }
-
+ @Override
+    public void deleteFile(File file) {
+        String[] blocks = file.indexBlockContent.split(" ");
+        for (int i = 0; i < blocks.length; i++) {
+            diskBlocks[Integer.parseInt(blocks[i])] = false;
+        }
+        diskBlocks[file.allocatedBlocks[0]] = false;
+        freeSize += file.size+1;
+        file.delete();
+    }
 }
 
 public abstract class Allocation {
@@ -335,14 +355,7 @@ public abstract class Allocation {
 
     abstract public boolean addFile(Directory directory, String path, int size, String n);
 
-    public void deleteFile(File file) {
-        int[] blocks = file.getAllocatedBlocks();
-        for (int i = 0; i < blocks.length; i++) {
-            diskBlocks[blocks[i]] = false;
-        }
-        freeSize += file.size;
-        file.delete();
-    }
+    abstract public void deleteFile(File file);
 
     public Directory getPathDirectory(String[] path) {
 
